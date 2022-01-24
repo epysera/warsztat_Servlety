@@ -5,18 +5,17 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet("/user/list")
-public class UserList extends HttpServlet {
+@WebServlet("/user/show")
+public class UserShow extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                response.setContentType("text/html");
-        response.setCharacterEncoding("UTF-8");
-        request.setCharacterEncoding("UTF-8");
 
+        String id = request.getParameter("id");
         UserDao userDao = new UserDao();
-        request.setAttribute("users", userDao.findAll());
+        User read = userDao.read(Integer.parseInt(id));
+        request.setAttribute("user", read);
 
-        getServletContext().getRequestDispatcher("/users/list.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/users/showUser.jsp").forward(request, response);
 
     }
 

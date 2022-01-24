@@ -5,18 +5,17 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet("/user/list")
-public class UserList extends HttpServlet {
+@WebServlet("/user/delete")
+public class UserDel extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                response.setContentType("text/html");
-        response.setCharacterEncoding("UTF-8");
-        request.setCharacterEncoding("UTF-8");
 
+        int id = Integer.parseInt(request.getParameter("id"));
         UserDao userDao = new UserDao();
-        request.setAttribute("users", userDao.findAll());
+        userDao.delete(id);
 
-        getServletContext().getRequestDispatcher("/users/list.jsp").forward(request, response);
+
+        response.sendRedirect(request.getContextPath() + "/user/list");
 
     }
 
